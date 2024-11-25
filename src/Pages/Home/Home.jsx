@@ -1,7 +1,25 @@
 // CSS imports
+import { useEffect, useState } from 'react';
 import CategoryItem from '../../Components/CategoryItem/CategoryItem';
+import axios from 'axios';
 import './Home.css';
+import { getAllCategories } from '../../Apis/fakeStoreProdApis';
+
+
 function Home() {
+
+    const [categories,setCategories] = useState(null);
+
+    async function downloadCategories() {
+        const response = await axios.get(getAllCategories());
+        //console.log(response.data);
+        setCategories(response.data);
+    }
+
+    useEffect(()=>{
+        downloadCategories();
+    },[])
+
     return (
         <div className="container welcome-wrapper">
             <div className="row">
@@ -9,6 +27,7 @@ function Home() {
                 <div className="category-list d-flex flex-row justify-content-between align-items-center" id="categoryList">
                     
                     <CategoryItem itemName="All Products" />
+                    {categories && categories.map(category => <CategoryItem key={category} itemName={category} /> )}
                     
                 </div>
                 <div className="category-title text-center">
