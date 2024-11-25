@@ -40,7 +40,7 @@ export function Header(props) {
                 <DropdownItem>Cart</DropdownItem>
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>Logout</DropdownItem>
+                <Link to="/signin">Logout</Link>
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavbarText>Username</NavbarText>
