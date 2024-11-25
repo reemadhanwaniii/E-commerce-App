@@ -1,8 +1,24 @@
 import './ProductList.css';
 import ProductBox from '../../Components/ProductBox/ProductBox';
 import FilterProducts from '../../Components/FilterProducts/FilterProducts';
+import { useEffect, useState } from 'react';
+import { getAllProducts } from '../../Apis/fakeStoreProdApis';
+import axios from 'axios';
 
 function ProductList() {
+
+   const [productList,setProductList] = useState(null);
+
+   async function downloadProductList() {
+        const response = await axios.get(getAllProducts());
+        setProductList(response.data);
+        console.log(response.data);
+   }
+
+   useEffect(()=>{
+    downloadProductList();
+   },[])
+
     return(
         <div className='container'>
             <div className='row'>
@@ -11,7 +27,15 @@ function ProductList() {
                     {/**list of products */}
                     <FilterProducts/>
                     <div className='product-list-box' id='productList'>
-                        <ProductBox productImage={"data:image/jpeg;base64,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"} name={"dummy"} price={1000} />
+                        
+                        { productList && productList.map((product)=> 
+                                <ProductBox 
+                                    key={product.id}
+                                    productImage={product.image} 
+                                    name={product.title} 
+                                    price={product.price} 
+                                />)
+                        }
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function ProductBox({productImage, name, price}) {
     return (
         <Link  to="/products/2" 
-            className="product-item text-decoration-none d-inline-block">
+            className="product-item text-decoration-none">
             <div className="product-img">
                 <img src={productImage} alt="" />
             </div>
