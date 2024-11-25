@@ -1,14 +1,14 @@
 
 import './App.css'
+import { Header } from './Components/Header/Header'
 
 function App() {
   
-
   return (
-    <h1>
-     E-commerce
-    </h1>
-  )
+    <>
+     <Header color="light" light={true} expand="md" container="md" fixed="top"/> 
+    </>
+  );
 }
 
-export default App
+export default App;
