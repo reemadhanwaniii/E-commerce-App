@@ -20,7 +20,7 @@ function ProductList() {
 
    useEffect(()=>{
     downloadProductList(query.get("category"));
-   },[])
+   },[query.get("category")])
 
     return(
         <div className='container'>
