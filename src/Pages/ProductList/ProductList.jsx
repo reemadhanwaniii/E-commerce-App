@@ -34,6 +34,7 @@ function ProductList() {
                         { productList && productList.map((product)=> 
                                 <ProductBox 
                                     key={product.id}
+                                    productId={product.id}
                                     productImage={product.image} 
                                     name={product.title} 
                                     price={product.price} 
