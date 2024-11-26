@@ -17,7 +17,7 @@ function ProductDetails() {
 
     useEffect(()=>{
         downloadProduct(id);
-    },[id])
+    },[])
 
     return (
         product &&
