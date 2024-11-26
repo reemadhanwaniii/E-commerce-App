@@ -2,21 +2,24 @@ import './ProductList.css';
 import ProductBox from '../../Components/ProductBox/ProductBox';
 import FilterProducts from '../../Components/FilterProducts/FilterProducts';
 import { useEffect, useState } from 'react';
-import { getAllProducts } from '../../Apis/fakeStoreProdApis';
+import { getAllProducts, getProductByCategory } from '../../Apis/fakeStoreProdApis';
 import axios from 'axios';
+import { useSearchParams } from 'react-router-dom';
 
 function ProductList() {
 
    const [productList,setProductList] = useState(null);
+   const [query] = useSearchParams();
 
-   async function downloadProductList() {
-        const response = await axios.get(getAllProducts());
+   async function downloadProductList(category) {
+        const downloadURL = category ? getProductByCategory(category) : getAllProducts();
+        const response = await axios.get(downloadURL);
         setProductList(response.data);
         console.log(response.data);
    }
 
    useEffect(()=>{
-    downloadProductList();
+    downloadProductList(query.get("category"));
    },[])
 
     return(
