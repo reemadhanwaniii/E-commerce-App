@@ -3,15 +3,14 @@ import Auth from "../../Components/Auth/Auth";
 import './Auth.css';
 import axios from "axios";
 import { signup } from "../../Apis/fakeStoreProdApis";
-import { useState } from "react";
+
 
 
 function Signup() {
 
     const navigate = useNavigate();
-    const [resetSignUpForm,setResetSignUpForm] = useState(false);
 
-    async function onAuthFormSubmit(authArguments) {
+    async function onAuthFormSubmit(authArguments,resetForm) {
         try {
             await axios.post(signup(),{
                 username: authArguments.username,
@@ -22,7 +21,7 @@ function Signup() {
         } catch (error) {
             console.log(error);
             //will add react notification
-            setResetSignUpForm(true);
+            resetForm();
         }
     }
 
@@ -37,7 +36,6 @@ function Signup() {
                 <h4 className="text-center">Signup</h4>
                 <Auth 
                     onSubmit={onAuthFormSubmit}
-                    resetForm={resetSignUpForm}
                 />
                 <div className="signup-btn text-center" id="showSignupBtn">
                     <Link  to="/signin">
