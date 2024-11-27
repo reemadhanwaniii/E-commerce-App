@@ -9,7 +9,7 @@ import { useState } from "react";
 function Signup() {
 
     const navigate = useNavigate();
-    const [resetSignUpForm,setSignUpForm] = useState(false);
+    const [resetSignUpForm,setResetSignUpForm] = useState(false);
 
     async function onAuthFormSubmit(authArguments) {
         try {
@@ -22,7 +22,7 @@ function Signup() {
         } catch (error) {
             console.log(error);
             //will add react notification
-            setSignUpForm(true);
+            setResetSignUpForm(true);
         }
     }
 
