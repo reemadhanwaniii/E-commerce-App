@@ -1,7 +1,6 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
-import Cookies from 'js-cookie';
 import {
   Collapse,
   Navbar,
@@ -14,12 +13,17 @@ import {
   DropdownItem,
   NavbarText,
 } from 'reactstrap';
+import { useCookies } from 'react-cookie';
 
 export function Header(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [token,settoken] = useState(Cookies.get('jwt-token'));
+  const [token,setToken,removeToken] = useCookies(['jwt-token']);
  
   const toggle = () => setIsOpen(!isOpen);
+
+  useEffect(()=>{
+
+  },[token]);
 
   return (
     <div>
@@ -40,9 +44,9 @@ export function Header(props) {
                 <DropdownItem>Cart</DropdownItem>
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
-                {token? <Link onClick={() => {
-                  Cookies.remove('jwt-token')
-                  settoken(undefined);
+                {token['jwt-token']? <Link onClick={() => {
+                  console.log(token);
+                  removeToken('jwt-token');
                 }
                 } to="/signin">Logout</Link> : <Link to="/signin"> Signin</Link>}
               </DropdownMenu>
@@ -56,8 +60,4 @@ export function Header(props) {
   );
 }
 
-/**
- * when we sign in changes will not render immediately we need to refresh it because token state is local to header we need to
- * propagate it to parent somehow
- */
 

@@ -4,7 +4,7 @@ import './Auth.css';
 import { useRef } from 'react';
 import axios from 'axios';
 import { signin } from '../../Apis/fakeStoreProdApis';
-import Cookies from 'js-cookie';
+import { useCookies } from 'react-cookie';
 
 
 
@@ -12,6 +12,8 @@ function Login() {
 
     const authRef = useRef(null);
     const navigate = useNavigate();
+
+    const[token,setToken] = useCookies(['jwt-token']);
 
     async function handleFormSubmit(formDetails) {
         try{
@@ -21,7 +23,7 @@ function Login() {
                 password: formDetails.password
             });
              console.log(response.data);
-             Cookies.set('jwt-token',response.data.token);
+             setToken('jwt-token',response.data.token);
              navigate('/');
         } catch(error){
             console.log(error);
