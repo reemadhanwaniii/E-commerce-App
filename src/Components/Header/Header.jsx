@@ -17,7 +17,7 @@ import {
 
 export function Header(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const token = Cookies.get('jwt-token');
+  const [token,settoken] = useState(Cookies.get('jwt-token'));
  
   const toggle = () => setIsOpen(!isOpen);
 
@@ -40,7 +40,11 @@ export function Header(props) {
                 <DropdownItem>Cart</DropdownItem>
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
-                {token? <Link onClick={() => Cookies.remove('jwt-token')} to="/signin">Logout</Link> : <Link to="/signin"> Signin</Link>}
+                {token? <Link onClick={() => {
+                  Cookies.remove('jwt-token')
+                  settoken(undefined);
+                }
+                } to="/signin">Logout</Link> : <Link to="/signin"> Signin</Link>}
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavbarText>Username</NavbarText>
@@ -52,7 +56,8 @@ export function Header(props) {
   );
 }
 
-
-//Line 43 when we are removing token it doesn't show signin option immediately when we refresh it then it shows signin 
-// it happens beacuse nav component doesn't re-render immediately or it is normal variable so it doesn't re-render
+/**
+ * when we sign in changes will not render immediately we need to refresh it because token state is local to header we need to
+ * propagate it to parent somehow
+ */
 
