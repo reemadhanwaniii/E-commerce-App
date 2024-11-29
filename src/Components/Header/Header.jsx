@@ -61,3 +61,6 @@ export function Header(props) {
 }
 
 
+//document.cookie : shows ur jwt-token
+
+//

@@ -23,7 +23,7 @@ function Login() {
                 password: formDetails.password
             });
              console.log(response.data);
-             setToken('jwt-token',response.data.token);
+             setToken('jwt-token',response.data.token,{httpOnly: true});
              navigate('/');
         } catch(error){
             console.log(error);
