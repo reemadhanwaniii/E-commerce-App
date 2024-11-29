@@ -1,20 +1,28 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Auth from '../../Components/Auth/Auth';
 import './Auth.css';
 import { useRef } from 'react';
 import axios from 'axios';
 import { signin } from '../../Apis/fakeStoreProdApis';
+import Cookies from 'js-cookie';
+
+
+
 function Login() {
 
     const authRef = useRef(null);
+    const navigate = useNavigate();
 
     async function handleFormSubmit(formDetails) {
         try{
-            await axios.post(signin(),{
+            const response = await axios.post(signin(),{
                 username: formDetails.username,
                 email: formDetails.email,
                 password: formDetails.password
-            })
+            });
+             console.log(response.data);
+             Cookies.set('jwt-token',response.data.token);
+             navigate('/');
         } catch(error){
             console.log(error);
             authRef.current.resetFormData();
