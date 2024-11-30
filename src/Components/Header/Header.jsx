@@ -1,5 +1,6 @@
-import  { useEffect, useState } from 'react';
+import  { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import './Header.css';
 import {
   Collapse,
@@ -14,15 +15,24 @@ import {
   NavbarText,
 } from 'reactstrap';
 import { useCookies } from 'react-cookie';
+import UserContext from '../../Context/UserContext';
 
 export function Header(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [token,setToken,removeToken] = useCookies(['jwt-token']);
+  const {user,setUser} = useContext(UserContext);
  
   const toggle = () => setIsOpen(!isOpen);
 
-  useEffect(()=>{
+  function logout() {
+    removeToken('jwt-token',{httpOnly: true});
+    axios.get(`${import.meta.env.VITE_FAKE_STORE_URL}/logout`,{withCredentials: true});
+    setUser(null);
+  }
 
+  useEffect(()=>{
+    console.log(setToken);
+    console.log("user ",user);
   },[token]);
 
   return (
@@ -45,13 +55,14 @@ export function Header(props) {
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
                 {token['jwt-token']? <Link onClick={() => {
-                  console.log(token);
-                  removeToken('jwt-token');
+                  // console.log(token);
+                  // removeToken('jwt-token');
+                  logout();
                 }
                 } to="/signin">Logout</Link> : <Link to="/signin"> Signin</Link>}
               </DropdownMenu>
             </UncontrolledDropdown>
-            <NavbarText>Username</NavbarText>
+            {user && <NavbarText>{user.username}</NavbarText>}
           </Nav>
          
         </Collapse>

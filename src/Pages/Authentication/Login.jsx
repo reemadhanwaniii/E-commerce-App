@@ -1,11 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import Auth from '../../Components/Auth/Auth';
 import './Auth.css';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import axios from 'axios';
 import { signin } from '../../Apis/fakeStoreProdApis';
 import { useCookies } from 'react-cookie';
-
+import { jwtDecode } from 'jwt-decode';
+import UserContext from '../../Context/UserContext';
 
 
 function Login() {
@@ -15,15 +16,20 @@ function Login() {
 
     const[token,setToken] = useCookies(['jwt-token']);
 
+    const {setUser} = useContext(UserContext);
+
     async function handleFormSubmit(formDetails) {
         try{
             const response = await axios.post(signin(),{
                 username: formDetails.username,
                 email: formDetails.email,
                 password: formDetails.password
-            });
-             console.log(response.data);
+            },{withCredentials: true});
+             console.log(response.data,token);
              setToken('jwt-token',response.data.token,{httpOnly: true});
+             const tokenDetails = jwtDecode(response.data.token);
+             setUser({username: tokenDetails.user, id:tokenDetails.id});
+             console.log(tokenDetails);
              navigate('/');
         } catch(error){
             console.log(error);
@@ -52,3 +58,8 @@ function Login() {
     )
 }
 export default Login;
+
+/**
+ * Now there is one bug that is when we refresh application after login username and logout will gone beacuse we setup httponly
+ * param : true which makes cookie inaccessible in browser 
+ */

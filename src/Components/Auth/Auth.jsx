@@ -2,7 +2,7 @@ import { useState, useEffect, useImperativeHandle } from "react";
 import React from "react";
 
 
-function Auth({onSubmit, ref}) {
+function Auth({onSubmit}, ref) {
 
     const [formDetails,setFormDetails] = useState({email: '',password: '',username: '',isLoading: false});
 
