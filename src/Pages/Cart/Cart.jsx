@@ -1,11 +1,25 @@
 import OrderDetailsProduct from '../../Components/OrderDetailsProduct/OrderDetailsProduct';
 import './Cart.css';
-import { useParams } from 'react-router-dom';
-import useCart from '../../hooks/useCart';
+import { useEffect,useContext } from 'react';
+import axios from 'axios';
+import CartContext from '../../Context/CartContext';
+import { getProductById } from '../../Apis/fakeStoreProdApis';
 
 function Cart() {
-    const {userId} = useParams();
-    const [cart, setCart] = useCart(userId);
+    
+
+    const {cart} = useContext(CartContext);
+    async function downloadCartProducts(cart) {
+        if(!cart || !cart.products) return;
+        const productsPromise = cart.products.map(product => axios.get(getProductById(product.productId)));
+        const productPromiseResponse = await axios.all(productsPromise);   
+        
+    }
+    useEffect(() => {
+        console.log(cart);
+        downloadCartProducts(cart);
+    }, [cart])
+
     return (
         <div className="container">
             <div className="row">
