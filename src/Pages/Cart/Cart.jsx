@@ -5,6 +5,7 @@ import axios from 'axios';
 import CartContext from '../../Context/CartContext';
 import { getProductById,updateProductInCart } from '../../Apis/fakeStoreProdApis';
 import UserContext from '../../Context/UserContext';
+import { Link } from 'react-router-dom';
 
 function Cart() {
     
@@ -50,7 +51,7 @@ function Cart() {
                                                                         image={product.image}
                                                                         price={product.price}
                                                                         quantity={product.quantity}
-                                                                        onRemove = {() => onProductUpdate(product.id,0)}
+                                                                        onRemove = {() => onProductUpdate(product.id,)}
                                                                         />)}
                         
                     </div>
@@ -77,9 +78,9 @@ function Cart() {
                             </div>
                         </div>
                         <div className="price-details-btn-group">
-                            <a href="productList.html" className="continue-shopping-btn btn btn-info text-decoration-none">
+                            <Link to="/" className="continue-shopping-btn btn btn-info text-decoration-none">
                                 Continue Shopping
-                            </a>
+                            </Link>
                             <a href="checkout.html" className="checkout-btn btn btn-primary text-decoration-none">
                                 Checkout
                             </a>
