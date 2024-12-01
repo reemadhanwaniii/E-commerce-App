@@ -16,11 +16,13 @@ import {
 } from 'reactstrap';
 import { useCookies } from 'react-cookie';
 import UserContext from '../../Context/UserContext';
+import CartContext from '../../Context/CartContext';
 
 export function Header(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [token,setToken,removeToken] = useCookies(['jwt-token']);
   const {user,setUser} = useContext(UserContext);
+  const {cart,setCart} = useContext(CartContext);
  
   const toggle = () => setIsOpen(!isOpen);
 
@@ -28,6 +30,7 @@ export function Header(props) {
     removeToken('jwt-token',{httpOnly: true});
     axios.get(`${import.meta.env.VITE_FAKE_STORE_URL}/logout`,{withCredentials: true});
     setUser(null);
+    setCart(null);
   }
 
   useEffect(()=>{
@@ -51,7 +54,7 @@ export function Header(props) {
                 Account
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>Cart</DropdownItem>
+              { user && <DropdownItem> <Link to={`/cart/${user.id}`}>Cart {cart && cart.products && `(${cart.products.length})`}</Link></DropdownItem> }
                 <DropdownItem>Settings</DropdownItem>
                 <DropdownItem divider />
                 {token['jwt-token']? <Link onClick={() => {

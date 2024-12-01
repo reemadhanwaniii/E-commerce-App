@@ -22,3 +22,7 @@ export function signup() {
 export function signin() {
     return  `${import.meta.env.VITE_FAKE_STORE_URL}/auth/login`;
 }
+
+export function getCartByUser(userId) {
+    return  `${import.meta.env.VITE_FAKE_STORE_URL}/carts/user/${userId}`;
+}

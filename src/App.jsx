@@ -8,10 +8,12 @@ import UserContext from './Context/UserContext';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import CartContext from './Context/CartContext';
 
 function App() {
   
   const [user,setUser] = useState(null);
+  const [cart,setCart] = useState(null);
   const [token,setToken] = useCookies(['jwt-token']);
 
   function accessToken(){
@@ -29,16 +31,18 @@ function App() {
 
   return (
     <UserContext.Provider value={{user,setUser}}>
+      <CartContext.Provider value={{cart,setCart}}>
         <div className='app-wrapper'>
-        <Header 
-            color="light" 
-            light={true} 
-            expand="md" 
-            container="md" 
-        /> 
-          <MainRoutes/>
-        <Footer/>
-        </div>
+          <Header 
+              color="light" 
+              light={true} 
+              expand="md" 
+              container="md" 
+          /> 
+            <MainRoutes/>
+          <Footer/>
+          </div>
+      </CartContext.Provider>
     </UserContext.Provider>
     
   );
